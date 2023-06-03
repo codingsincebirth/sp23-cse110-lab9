@@ -95,26 +95,33 @@
   </main>
 
   <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Step 4: Throw and Custom Errors
-
-    class ValidationError extends Error{
+  class ValidationError extends Error{
       constructor(message){
         super(message);
         this.name = "Validation Error.";
       }
-    }
+  }
+
+    let form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+      try{
+        e.preventDefault();
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      
+      }catch(err){
+        throw new ValidationError("Invalid input.");
+      }finally{
+        console.log("Successfully Calculated");
+      }
+    });
+
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+
     /*
     function test(){
       throw new ValidationError("Sorry, input not valid.");
@@ -128,48 +135,12 @@
       alert(err.stack); //list of nested calls with line numbers
     }*/
 
-    function readInput(first, second){
-      const input = [first, second];
 
-      if(!firstNum){
-        throw new ValidationError("First input is missing.")
-      }
-      else if(!secondNum){
-        throw new ValidationError("Second input is missing.")
-      }else{ // if no input is missing
-        console.log("Input is valid.")
-      }
-      return input;
-    }
-
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-
-      try{
-        const firstNum = document.querySelector('#first-num').value;
-        const secondNum = document.querySelector('#second-num').value;
-        
-        const inputArr = readInput(firstNum, secondNum);
-
-      }catch(err){
-        if (err instanceof ValidationError){
-          alert("Invalid input: " + err.message);
-          alert(err.name);
-          alert(err.stack);
-        }
-      }
+    //Step 5: Global Error Handler
+    errorBtns[14].addEventListener("click", () => {
+      //custom function as shown in demo
+      throw new Error(boom());
     });
-
-
-    //Step 5: Global Error Handler (need to finish)
-
-    //object literal wrapper
-    const ObjWrapper = {};
-    ObjWrapper.reportJSError = function (message, source, lineno, error){
-      console.error("Error Encountered: ", message, source, lineno, error);
-      return true;
-    };
-    window.onerror = ObjWrapper.reportJSError;
 
     TrackJS.track("Testing TrackJS!");
   </script>
