@@ -47,6 +47,13 @@
       width: 122px;
     }
   </style>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "784948e0c69141c9958b9b68d879bb8d"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
 </head>
 
 <body>
@@ -100,8 +107,74 @@
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Step 4: Throw and Custom Errors
+    class Error{
+      constructor(message){
+        this.message = message;
+        this.name = "Error";
+      }
+    }
+
+    class ValidationError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "Validation Error.";
+      }
+    }
+    
+    function test(){
+      throw new ValidationError("Sorry, input not valid.");
+    }
+
+    try{
+      test();
+    }catch(err){
+      alert(err.message); //Error message
+      alert(err.name); //Type of Error
+      alert(err.stack); //list of nested calls with line numbers
+    }
+
+    function readInput(first, second){
+      const input = [first, second];
+
+      if(!firstNum){
+        throw new ValidationError("First input is missing.")
+      }
+      else if(!secondNum){
+        throw new ValidationError("Second input is missing.")
+      }else{ // if no input is missing
+        console.log("Input is valid.")
+      }
+      return input;
+    }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+
+      try{
+        const firstNum = document.querySelector('#first-num').value;
+        const secondNum = document.querySelector('#second-num').value;
+        
+        const inputArr = readInput(firstNum, secondNum);
+
+      }catch(err){
+        if (err instanceof ValidationError){
+          alert("Invalid input: " + err.message);
+          alert(err.name);
+          alert(err.property);
+        }
+      }
+    });
+
+
+    //Step 5: Global Error Handler
+
+    window.onerror = function reportJSError(message, source, lineNum, colNum, err){
+      console.error("Error Encountered: ", message, source, lineNum, colNum, err);
+    }
+    undefinedFunction();
+
+    TrackJS.track("Testing TrackJS!");
   </script>
 </body>
 
