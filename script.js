@@ -8,7 +8,8 @@ let form = document.querySelector('form');
         let operator = document.querySelector('#operator').value;
         output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
       
-      }catch(err){
+      }
+      catch(err){
         throw new ValidationError("Invalid input.");
       }});
 
@@ -27,6 +28,10 @@ let form = document.querySelector('form');
 
     //Step 2
     //console log demo
+
+
+    //Step 2
+    //console log demo
     errorBtns[0].addEventListener("click", () => {
       console.log("Console Log Button");
     })
@@ -36,12 +41,7 @@ let form = document.querySelector('form');
     })
     //console count demo
     errorBtns[2].addEventListener("click", () => {
-      function hello(){
-        console.count("Calling function hello: ");
-      }
-      for(let i = 0; i < 3; i++){
-        hello();
-      }
+      console.count("Console count button: ");
     })
     //console warn demo
     errorBtns[3].addEventListener("click", () => {
@@ -66,7 +66,7 @@ let form = document.querySelector('form');
     //console dirxml demo
     errorBtns[7].addEventListener("click", () => {
      console.log("Console Dirxml Demo");
-     console.dirxml(document.body);
+     console.dirxml(document.head);
     })
     //console group demo
     errorBtns[8].addEventListener("click", () => {
@@ -116,12 +116,11 @@ let form = document.querySelector('form');
       finally{
         console.log("Finally execute this block");
       }
-    });
+    }); 
 
     //Step 5: Global Error Handler
     errorBtns[14].addEventListener("click", () => {
       //custom function as shown in demo
       throw new Error(boom());
     });
-    
     TrackJS.track("Testing TrackJS!");
