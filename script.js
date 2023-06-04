@@ -1,14 +1,26 @@
 let form = document.querySelector('form');
     form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
+      try{
+        e.preventDefault();
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      
+      }catch(err){
+        throw new ValidationError("Invalid input.");
+      }});
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    
+    class ValidationError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "Validation Error.";
+      }
+    }
+
 
     // Start your code here
     // You may move this JS to another file if you wish
@@ -104,4 +116,12 @@ let form = document.querySelector('form');
       finally{
         console.log("Finally execute this block");
       }
-    }); 
+    });
+
+    //Step 5: Global Error Handler
+    errorBtns[14].addEventListener("click", () => {
+      //custom function as shown in demo
+      throw new Error(boom());
+    });
+    
+    TrackJS.track("Testing TrackJS!");
